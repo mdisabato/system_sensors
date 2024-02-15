@@ -152,7 +152,7 @@ def get_disk_usage(path):
         disk_free = str(psutil.disk_usage(path).free)
         disk_used = str(psutil.disk_usage(path).used)
         disk_total = str(psutil.disk_usage(path).total)
-        return disk_percent, disk_free, disk_used, disk_total
+        return {disk_use_percent:disk_percent, disk_space_free:disk_free, disk_space_used:disk_used, disk_cpacity:disk_total}
     except Exception as e:
         print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
         return None # Changed to return None for handling exception at function call location
