@@ -146,14 +146,34 @@ def get_clock_speed():
     clock_speed = int(psutil.cpu_freq().current)
     return clock_speed
 
-def get_disk_usage(path):
+def get_disk_pct(path):
     try:
         disk_percent = str(psutil.disk_usage(path).percent)
-        disk_free = str(psutil.disk_usage(path).free)
-        disk_used = str(psutil.disk_usage(path).used)
-        disk_total = str(psutil.disk_usage(path).total)
+        return disk_percent
+    except Exception as e:
+        print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
+        return None # Changed to return None for handling exception at function call location
 
-        return disk_percent, disk_free, disk_used, disk_total
+def get_disk_free(path):
+    try:
+        disk_free = str(psutil.disk_usage(path).free)
+        return disk_free
+    except Exception as e:
+        print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
+        return None # Changed to return None for handling exception at function call location
+
+def get_disk_used(path):
+    try:
+        disk_used = str(psutil.disk_usage(path).used)
+        return disk_used
+    except Exception as e:
+        print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
+        return None # Changed to return None for handling exception at function call location
+
+def get_disk_total(path):
+    try:
+        disk_total = str(psutil.disk_usage(path).total)
+        return disk_total
     except Exception as e:
         print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
         return None # Changed to return None for handling exception at function call location
