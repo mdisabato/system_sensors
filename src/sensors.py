@@ -146,34 +146,13 @@ def get_clock_speed():
     clock_speed = int(psutil.cpu_freq().current)
     return clock_speed
 
-def get_disk_pct(path):
+def get_disk_usage(path):
     try:
         disk_percent = str(psutil.disk_usage(path).percent)
-        return disk_percent
-    except Exception as e:
-        print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
-        return None # Changed to return None for handling exception at function call location
-
-def get_disk_free(path):
-    try:
         disk_free = str(psutil.disk_usage(path).free)
-        return disk_free
-    except Exception as e:
-        print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
-        return None # Changed to return None for handling exception at function call location
-
-def get_disk_used(path):
-    try:
         disk_used = str(psutil.disk_usage(path).used)
-        return disk_used
-    except Exception as e:
-        print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
-        return None # Changed to return None for handling exception at function call location
-
-def get_disk_total(path):
-    try:
         disk_total = str(psutil.disk_usage(path).total)
-        return disk_total
+        return disk_percent, disk_free, disk_used, disk_total
     except Exception as e:
         print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
         return None # Changed to return None for handling exception at function call location
@@ -380,35 +359,13 @@ sensors = {
                  'unit': 'MHz',
                  'sensor_type': 'sensor',
                  'function': get_clock_speed},
-          'disk_percent':
+          'disk_usage':
                 {'name':'Disk Use Percent',
                  'state_class':'measurement',
                  'unit': '%',
                  'icon': 'micro-sd',
                  'sensor_type': 'sensor',
-                 'function': lambda: get_disk_pct('/')},
-           'disk_free':
-                {'name':'Disk Free',
-                 'state_class':'measurement',
-                 'unit': 'GiB',
-                 'icon': 'micro-sd',
-                 'sensor_type': 'sensor',
-                 'function': lambda: get_disk_free('/')},
-           'disk_used':
-                {'name':'Disk Used',
-                 'state_class':'measurement',
-                 'unit': 'GiB',
-                 'icon': 'micro-sd',
-                 'sensor_type': 'sensor',
-                 'function': lambda: get_disk_used('/')},
-
-           'disk_total':
-                {'name':'Disk Capacity',
-                 'state_class':'measurement',
-                 'unit': 'GiB',
-                 'icon': 'micro-sd',
-                 'sensor_type': 'sensor',
-                 'function': lambda: get_disk_total('/')},
+                 'function': lambda: get_disk_usage('/')},
           'memory_use':
                 {'name':'Memory Use',
                  'state_class':'measurement',
