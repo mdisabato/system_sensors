@@ -386,25 +386,29 @@ sensors = {
                  'unit': '%',
                  'icon': 'micro-sd',
                  'sensor_type': 'sensor',
-                 'function': lambda: get_disk_usage('/')},
+                 'function': lambda: get_disk_pct('/')},
            'disk_free':
                 {'name':'Disk Free',
                  'state_class':'measurement',
                  'unit': 'GiB',
                  'icon': 'micro-sd',
-                 'sensor_type': 'sensor'},
+                 'sensor_type': 'sensor',
+                 'function': lambda: get_disk_free('/')},
            'disk_used':
                 {'name':'Disk Used',
                  'state_class':'measurement',
                  'unit': 'GiB',
                  'icon': 'micro-sd',
-                 'sensor_type': 'sensor'},
+                 'sensor_type': 'sensor',
+                 'function': lambda: get_disk_used('/')},
+
            'disk_total':
                 {'name':'Disk Capacity',
                  'state_class':'measurement',
                  'unit': 'GiB',
                  'icon': 'micro-sd',
-                 'sensor_type': 'sensor'},
+                 'sensor_type': 'sensor',
+                 'function': lambda: get_disk_total('/')},
           'memory_use':
                 {'name':'Memory Use',
                  'state_class':'measurement',
