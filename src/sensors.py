@@ -148,12 +148,12 @@ def get_clock_speed():
 
 def get_disk_usage(path):
     try:
-        disk_percentage = str(psutil.disk_usage(path).percent)
+        disk_percent = str(psutil.disk_usage(path).percent)
         disk_free = str(psutil.disk_usage(path).free)
         disk_used = str(psutil.disk_usage(path).used)
         disk_total = str(psutil.disk_usage(path).total)
 
-        return disk_percentage, disk_free. disk_used, disk_total
+        return disk_percent, disk_free, disk_used, disk_total
     except Exception as e:
         print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
         return None # Changed to return None for handling exception at function call location
@@ -360,7 +360,7 @@ sensors = {
                  'unit': 'MHz',
                  'sensor_type': 'sensor',
                  'function': get_clock_speed},
-          'disk_pct':
+          'disk_percent':
                 {'name':'Disk Use Percent',
                  'state_class':'measurement',
                  'unit': '%',
@@ -372,19 +372,19 @@ sensors = {
                  'state_class':'measurement',
                  'unit': 'GiB',
                  'icon': 'micro-sd',
-                 'sensor_type': 'sensor',
+                 'sensor_type': 'sensor'},
            'disk_used':
                 {'name':'Disk Used',
                  'state_class':'measurement',
                  'unit': 'GiB',
                  'icon': 'micro-sd',
-                 'sensor_type': 'sensor',
+                 'sensor_type': 'sensor'},
            'disk_total':
                 {'name':'Disk Capacity',
                  'state_class':'measurement',
                  'unit': 'GiB',
                  'icon': 'micro-sd',
-                 'sensor_type': 'sensor',
+                 'sensor_type': 'sensor'},
           'memory_use':
                 {'name':'Memory Use',
                  'state_class':'measurement',
