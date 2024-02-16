@@ -148,11 +148,11 @@ def get_clock_speed():
 
 def get_disk_usage(path):
     try:
-        disk_percent = str(psutil.disk_usage(path).percent)
+        disk_percentage = str(psutil.disk_usage(path).percent)
         disk_free = str(psutil.disk_usage(path).free)
         disk_used = str(psutil.disk_usage(path).used)
         disk_total = str(psutil.disk_usage(path).total)
-        return {disk_use_percent:disk_percent, disk_space_free:disk_free, disk_space_used:disk_used, disk_cpacity:disk_total}
+        return {disk_percent:disk_percentage, disk_freespace:disk_free, disk_usedspace:disk_used, disk_capacity:disk_total}
     except Exception as e:
         print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
         return None # Changed to return None for handling exception at function call location
@@ -359,14 +359,19 @@ sensors = {
                  'unit': 'MHz',
                  'sensor_type': 'sensor',
                  'function': get_clock_speed},
-          'disk_usage':
+          'disk_use':
                 {'name':'Disk Use Percent',
                  'state_class':'measurement',
                  'unit': '%',
                  'icon': 'micro-sd',
                  'sensor_type': 'sensor',
-                 'function': lambda: get_disk_usage('/')},
-          'memory_use':
+                 'function': lambda: get_disk_usage('/'),
+                 'prop': PropertyBag({
+                     'disk_capacity'      : disk_total,
+                     'disk_used'          : disk_used,
+                     'disk_free'          : disk_free,
+                 })},
+        'memory_use':
                 {'name':'Memory Use',
                  'state_class':'measurement',
                  'unit': '%',
