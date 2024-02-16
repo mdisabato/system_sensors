@@ -367,9 +367,9 @@ sensors = {
                  'sensor_type': 'sensor',
                  'function': lambda: get_disk_usage('/'),
                  'prop': PropertyBag({
-                     'disk_capacity'      : disk_total,
-                     'disk_used'          : disk_used,
-                     'disk_free'          : disk_free,
+                     'disk_capacity'      : disk_capacity,
+                     'disk_used'          : disk_usedspace,
+                     'disk_free'          : disk_freespace,
                  })},
         'memory_use':
                 {'name':'Memory Use',
