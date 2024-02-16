@@ -156,7 +156,7 @@ def get_disk_usage(path):
         
 def get_disk_free(path):
     try:
-        disk_free = str(psutil.disk_usage(path).free / 1000000)
+        disk_free = str(psutil.disk_usage(path).free / 1000000000)
         return disk_free
     except Exception as e:
         print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
@@ -164,7 +164,7 @@ def get_disk_free(path):
 
 def get_disk_used(path):
     try:
-        disk_used = str(psutil.disk_usage(path).used / 1000000)
+        disk_used = str(psutil.disk_usage(path).used / 1000000000)
         return disk_used
     except Exception as e:
         print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
@@ -172,7 +172,7 @@ def get_disk_used(path):
 
 def get_disk_total(path):
     try:
-        disk_total = str(psutil.disk_usage(path).total / 1000000)
+        disk_total = str(psutil.disk_usage(path).total / 1000000000)
         return disk_total
     except Exception as e:
         print('Error while trying to obtain disk usage from ' + str(path) + ' with exception: ' + str(e))
