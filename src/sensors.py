@@ -62,7 +62,7 @@ with open(os_release) as f:
 # Get installed OS version
 os_ver_cmd    = 'uname -v | sed -e \'s/^.*:/ / ; s/[(][^)]*[)]//g ; s/^[ \t]*//\''
 
-def  get_host_vers(host_os_vers):
+def  get_host_vers():
     try:
         host_os_vers = os.system(os_ver_cmd)
         return host_os_vers
