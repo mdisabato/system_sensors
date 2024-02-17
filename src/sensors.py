@@ -64,7 +64,8 @@ os_ver_cmd    = 'uname -v | sed -e \'s/^.*:/ / ; s/[(][^)]*[)]//g ; s/^[ \t]*//\
 
 def  get_host_vers():
     try:
-        host_os_vers = os.system(os_ver_cmd)
+        host_os_vers = os.popen(os_ver_cmd)
+        host_os_vers.read().strip(' \n')
         return host_os_vers
     except Exception as e:
         print('Error while trying to obtain OS Version ' + str(os_ver_cmd) + ' with exception: ' + str(e))
