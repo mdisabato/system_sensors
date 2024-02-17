@@ -59,6 +59,18 @@ with open(os_release) as f:
             row = line.strip().split("=")
             OS_DATA[row[0]] = row[1].strip('"')
 
+# Get installed OS version
+os_ver_cmd    = 'uname -v | sed -e \'s/^.*:/ / ; s/[(][^)]*[)]//g ; s/^[ \t]*//\''
+
+def  get_os_version(os_version)
+    try:
+        os_version = os.system(os_ver_cmd)
+        return os_version
+    except Exception as e:
+        print('Error while trying to obtain OS Version ' + str(os_ver_cmd) + ' with exception: ' + str(e))
+        return None # Changed to return None for handling exception at function call location
+
+
 old_net_data_tx = psutil.net_io_counters()[0]
 previous_time_tx = time.time() - 10
 old_net_data_rx = psutil.net_io_counters()[1]
@@ -490,6 +502,11 @@ sensors = {
                  'icon': 'linux',
                  'sensor_type': 'sensor',
                  'function': get_host_os},
+          'host_os_ver':
+                {'name': 'Host OS Version',
+                 'icon': 'linux',
+                 'sensor_type': 'sensor',
+                 'function': get_os_version},
           'host_arch':
                 {'name': 'Host Architecture',
                  'icon': 'chip',
