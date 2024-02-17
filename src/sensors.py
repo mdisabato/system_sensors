@@ -62,10 +62,10 @@ with open(os_release) as f:
 # Get installed OS version
 os_ver_cmd    = 'uname -v | sed -e \'s/^.*:/ / ; s/[(][^)]*[)]//g ; s/^[ \t]*//\''
 
-def  get_os_version(os_version)
+def  get_host_vers(host_os_vers):
     try:
-        os_version = os.system(os_ver_cmd)
-        return os_version
+        host_os_vers = os.system(os_ver_cmd)
+        return host_os_vers
     except Exception as e:
         print('Error while trying to obtain OS Version ' + str(os_ver_cmd) + ' with exception: ' + str(e))
         return None # Changed to return None for handling exception at function call location
@@ -502,11 +502,11 @@ sensors = {
                  'icon': 'linux',
                  'sensor_type': 'sensor',
                  'function': get_host_os},
-          'host_os_ver':
+          'host_os_vers':
                 {'name': 'Host OS Version',
                  'icon': 'linux',
                  'sensor_type': 'sensor',
-                 'function': get_os_version},
+                 'function': get_host_vers},
           'host_arch':
                 {'name': 'Host Architecture',
                  'icon': 'chip',
