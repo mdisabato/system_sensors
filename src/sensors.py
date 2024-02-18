@@ -62,16 +62,18 @@ with open(os_release) as f:
 # Get installed OS version
 os_ver_cmd    = 'uname -v | sed -e \'s/^.*:/ / ; s/[(][^)]*[)]//g ; s/^[ \t]*//\''
 
-def  get_host_vers():
+def get_host_vers():
     try:
-        host_os_vers = os.popen(os_ver_cmd)
-        host_os_vers.read().strip(' \n')
+        p1 = subprocess.run(['uname', '-v'], stdout=subprocess.PIPE)
+        p2 = result.stdout.decode('utf-8')
+        start = p2.index(':')
+        end = p2.index(' (',start+1)
+        host_os_ver = p2[start+1:end]
         return host_os_vers
     except Exception as e:
         print('Error while trying to obtain OS Version ' + str(os_ver_cmd) + ' with exception: ' + str(e))
         return None # Changed to return None for handling exception at function call location
-
-
+        
 old_net_data_tx = psutil.net_io_counters()[0]
 previous_time_tx = time.time() - 10
 old_net_data_rx = psutil.net_io_counters()[1]
