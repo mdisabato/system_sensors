@@ -60,20 +60,29 @@ with open(os_release) as f:
             OS_DATA[row[0]] = row[1].strip('"')
 
 # Get installed OS version
-os_ver_cmd    = 'uname -v | sed -e \'s/^.*:/ / ; s/[(][^)]*[)]//g ; s/^[ \t]*//\''
 
 def get_host_vers():
     try:
         p1 = subprocess.run(['uname', '-v'], stdout=subprocess.PIPE)
-        p2 = result.stdout.decode('utf-8')
-        start = p2.index(':')
-        end = p2.index(' (',start+1)
-        host_os_ver = p2[start+1:end]
+        host_os_info = p1.stdout.decode('utf-8')
+        start = host_os_info.index(':')
+        end = host_os_info.index(' (',start+1)
+        host_os_vers = host_os_info[start+1:end]
         return host_os_vers
     except Exception as e:
-        print('Error while trying to obtain OS Version ' + str(os_ver_cmd) + ' with exception: ' + str(e))
+        print('Error while trying to obtain OS Version ' + str() + ' with exception: ' + str(e))
         return None # Changed to return None for handling exception at function call location
         
+def get_host_date():
+    try:
+        start = host_os_info.index('(')
+        end = host_os_info.index(')',start+1)
+        host_os_date = host_os_info[start+1:end]
+        return host_os_date
+    except Exception as e:
+        print('Error while trying to obtain OS Date ' + str() + ' with exception: ' + str(e))
+        return None # Changed to return None for handling exception at function call location
+
 old_net_data_tx = psutil.net_io_counters()[0]
 previous_time_tx = time.time() - 10
 old_net_data_rx = psutil.net_io_counters()[1]
@@ -510,6 +519,11 @@ sensors = {
                  'icon': 'linux',
                  'sensor_type': 'sensor',
                  'function': get_host_vers},
+          'host_os_date':
+                {'name': 'Host OS Date',
+                 'icon': 'linux',
+                 'sensor_type': 'sensor',
+                 'function': get_host_date},
           'host_arch':
                 {'name': 'Host Architecture',
                  'icon': 'chip',
