@@ -75,6 +75,8 @@ def get_host_vers():
         
 def get_host_date():
     try:
+        p1 = subprocess.run(['uname', '-v'], stdout=subprocess.PIPE)
+        host_os_info = p1.stdout.decode('utf-8')
         start = host_os_info.index('(')
         end = host_os_info.index(')',start+1)
         host_os_date = host_os_info[start+1:end]
