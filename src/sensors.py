@@ -59,32 +59,6 @@ with open(os_release) as f:
             row = line.strip().split("=")
             OS_DATA[row[0]] = row[1].strip('"')
 
-# Get installed OS version
-
-def get_host_vers():
-    try:
-        p1 = subprocess.run(['uname', '-v'], stdout=subprocess.PIPE)
-        host_werk = p1.stdout.decode('utf-8')
-        start = host_werk.index(':')
-        end = host_werk.index(' (',start+1)
-        host_os_vers = host_werk[start+1:end]
-        return host_os_vers
-    except Exception as e:
-        print('Error while trying to obtain OS Version ' + str() + ' with exception: ' + str(e))
-        return None # Changed to return None for handling exception at function call location
-        
-def get_host_date():
-    try:
-        p1 = subprocess.run(['uname', '-v'], stdout=subprocess.PIPE)
-        host_werk = p1.stdout.decode('utf-8')
-        start = host_werk.index('(')
-        end = host_werk.index(')',start+1)
-        host_os_date = host_werk[start+1:end]
-        return host_os_date
-    except Exception as e:
-        print('Error while trying to obtain OS Date ' + str() + ' with exception: ' + str(e))
-        return None # Changed to return None for handling exception at function call location
-
 old_net_data_tx = psutil.net_io_counters()[0]
 previous_time_tx = time.time() - 10
 old_net_data_rx = psutil.net_io_counters()[1]
@@ -543,16 +517,6 @@ sensors = {
                  'icon': 'linux',
                  'sensor_type': 'sensor',
                  'function': get_host_os},
-          'host_os_vers':
-                {'name': 'Host OS Version',
-                 'icon': 'linux',
-                 'sensor_type': 'sensor',
-                 'function': get_host_vers},
-          'host_os_date':
-                {'name': 'Host OS Date',
-                 'icon': 'linux',
-                 'sensor_type': 'sensor',
-                 'function': get_host_date},
           'host_arch':
                 {'name': 'Host Architecture',
                  'icon': 'chip',
@@ -583,4 +547,3 @@ sensors = {
                  'sensor_type': 'sensor',
                  'function': get_wifi_ssid},
           }
-
