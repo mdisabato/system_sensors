@@ -10,6 +10,7 @@ import argparse
 import threading
 import paho.mqtt.client as mqtt
 import importlib.metadata
+import subprocess
 
 from sensors import *
 
@@ -185,17 +186,23 @@ def add_drives():
                 print(drive + ' is not mounted to host. Check config or host drive mount settings.')
 
 # host model method depending on system distro
-def get_host_model():
-    if "rasp" in OS_DATA["ID"] and isDockerized and isDeviceTreeModel:
-        model = subprocess.check_output(["cat", "/app/host/proc/device-tree/model"]).decode("UTF-8").strip()
-        # remove a weird character breaking the json in mqtt explorer
-        model = model[:-1]
-    else:
-        # todo find a solid way to determine sbc manufacture
-        model = f'{deviceManufacturer} {deviceNameDisplay}'
-    return model
+def get_cpu_model():
+    try:
+        # Fetch the Raspberry Pi CPU model information using subprocess
+        cpu_info = subprocess.check_output("cat /proc/cpuinfo | grep Model", shell=True).decode('utf-8')
+        # Extract the model info
+        model_line = cpu_info.strip()
+        if "Model" in model_line:
+            device_model = model_line.split(":")[1].strip()
+            return device_model
+        else:
+            return "Unknown Model"
+    except Exception as e:
+        print(f"Error fetching CPU model: {e}")
+        return "Unknown Model"
 
-def on_connect(client, userdata, flags, reason_code, properties):
+#def on_connect(client, userdata, flags, reason_code, properties):
+def on_connect(client, userdata, flags, reason_code):
     if reason_code == 0:
         write_message_to_console('Connected to broker')
         print("subscribing : " + f"{ha_status}/status")
@@ -251,8 +258,8 @@ if __name__ == '__main__':
 
     devicename = settings['devicename'].replace(' ', '').lower()
     deviceNameDisplay = settings['devicename']
-    deviceManufacturer = "RPI Foundation" if "rasp" in OS_DATA["ID"] else OS_DATA['NAME']
-    deviceModel = get_host_model()
+    deviceManufacturer = "Raspberry Pi Foundation"
+    deviceModel = get_cpu_model()
     ha_status = settings['ha_status']
     
 
